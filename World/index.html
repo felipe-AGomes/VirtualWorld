@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<link
+			rel="stylesheet"
+			href="style.css"
+		/>
+		<title>Virtual World</title>
+	</head>
+	<body>
+		<canvas id="myCanvas"></canvas>
+		<script src="graphui/GraphEditor.js"></script>
+		<script src="graphui/Point.js"></script>
+		<script src="graphui/Segment.js"></script>
+		<script src="graphui/Graph.js"></script>
+		<script>
+			const margin = 50;
+			myCanvas.width = window.innerWidth - margin;
+			myCanvas.height = window.innerHeight - margin;
+			myCanvas.style.backgroundColor = '#059862';
+			const ctx = myCanvas.getContext('2d');
+			const graphEditor = new GraphEditor(ctx);
+
+			myCanvas.addEventListener(
+				'mousedown',
+				graphEditor.onMousedownEvent.bind(graphEditor),
+			);
+		</script>
+	</body>
+</html>

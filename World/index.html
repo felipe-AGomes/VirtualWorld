@@ -23,13 +23,8 @@
 			myCanvas.width = window.innerWidth - margin;
 			myCanvas.height = window.innerHeight - margin;
 			myCanvas.style.backgroundColor = '#059862';
-			const ctx = myCanvas.getContext('2d');
-			const graphEditor = new GraphEditor(ctx);
 
-			myCanvas.addEventListener(
-				'mousedown',
-				graphEditor.onMousedownEvent.bind(graphEditor),
-			);
+			const graphEditor = new GraphEditor(myCanvas);
 		</script>
 	</body>
 </html>

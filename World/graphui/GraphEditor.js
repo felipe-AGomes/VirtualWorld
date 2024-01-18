@@ -1,21 +1,29 @@
 class GraphEditor {
-	constructor(ctx) {
-		this.graph = new Graph(ctx);
-		this.selected = null;
+	constructor(canvas) {
+		this.canvas = canvas;
+		this.graph = new Graph(this.canvas.getContext('2d'));
+
+		this.#addEventListeners();
 	}
 
-	addPoint(point) {
-		this.graph.addPoint(point);
+	#onMousedownEvent(event) {
+		this.graph.onMousedownEvent(event);
 	}
 
-	addSegment(segment) {
-		this.graph.addSegment(segment);
+	#onMousemoveEvent(event) {
+		this.graph.onMousemoveEvent(event);
 	}
 
-	onMousedownEvent(event) {
-		const point = new Point(event.offsetX, event.offsetY);
-		this.addPoint(point);
-		this.selected = point;
-		this.graph.drawSelected(this.selected);
+	#onMouseupEvent() {
+		this.graph.onMouseupEvent();
+	}
+
+	#addEventListeners() {
+		this.canvas.addEventListener('mousedown', this.#onMousedownEvent.bind(this));
+		this.canvas.addEventListener('mousemove', this.#onMousemoveEvent.bind(this));
+		this.canvas.addEventListener('mouseup', this.#onMouseupEvent.bind(this));
+		this.canvas.addEventListener('contextmenu', (event) => {
+			event.preventDefault();
+		});
 	}
 }

@@ -1,12 +1,18 @@
 class GraphSegment {
 	segments = [];
+	dotted = null;
 
 	constructor(ctx) {
 		this.ctx = ctx;
 	}
 
+	setDotted(segment) {
+		this.dotted = segment;
+	}
+
 	addSegment(segment) {
 		this.segments.push(segment);
+		this.dotted = segment;
 		console.log(this.segments);
 	}
 
@@ -36,11 +42,29 @@ class GraphSegment {
 
 	draw() {
 		for (const segment of this.segments) {
-			this.ctx.beginPath();
-			this.ctx.moveTo(segment.points[0].x, segment.points[0].y);
-			this.ctx.lineTo(segment.points[1].x, segment.points[1].y);
-			this.ctx.lineWidth = 2;
-			this.ctx.stroke();
+			this.drawSegment(segment);
 		}
+	}
+
+	drawSegment(segment) {
+		this.ctx.beginPath();
+		this.ctx.moveTo(segment.points[0].x, segment.points[0].y);
+		this.ctx.lineTo(segment.points[1].x, segment.points[1].y);
+		this.ctx.lineWidth = 2;
+		if (segment === this.dotted) {
+			this.ctx.setLineDash([5, 5]);
+		}
+		this.ctx.stroke();
+		this.ctx.setLineDash([]);
+	}
+
+	clear() {
+		this.segments = [];
+	}
+
+	load(segments) {
+		this.segments = segments.map((segment) => {
+			return new Segment(segment.points[0], segment.points[1]);
+		});
 	}
 }

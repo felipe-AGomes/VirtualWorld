@@ -5,7 +5,7 @@ class Graph {
 		this.graphSegment = graphSegment;
 		this.mouse = mouse;
 
-		this.dotted = null;
+		this.load();
 	}
 
 	onMousemoveEvent(event, mouse) {
@@ -38,6 +38,7 @@ class Graph {
 			} else {
 				this.graphPoint.addPoint(mouse.mousePoint);
 			}
+			this.graphSegment.setDotted(null);
 		}
 
 		mouse.setMousePoint(null);
@@ -80,5 +81,35 @@ class Graph {
 
 	clearRect() {
 		this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+	}
+
+	clear() {
+		this.graphPoint.clear();
+		this.graphSegment.clear();
+		Storage.remove('city');
+	}
+
+	save() {
+		Storage.save(JSON.stringify(this), 'city');
+	}
+
+	load() {
+		const city = JSON.parse(Storage.load('city'));
+
+		if (!city) {
+			return;
+		}
+
+		this.graphPoint.load(city.graphPoint.points);
+		const points = this.graphPoint.points;
+		const segments = city.graphSegment.segments.map((segment) => {
+			segment.points = segment.points.map((point) => {
+				return points.find((p) => p.x === point.x && p.y === point.y);
+			});
+
+			return segment;
+		});
+
+		this.graphSegment.load(segments);
 	}
 }

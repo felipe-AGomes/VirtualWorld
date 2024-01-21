@@ -83,4 +83,12 @@ class GraphPoint {
 			this.points = this.points.filter((p) => p !== this.hovered);
 		}
 	}
+
+	clear() {
+		this.points = [];
+	}
+
+	load(points) {
+		this.points = points.map((point) => new Point(point.x, point.y));
+	}
 }

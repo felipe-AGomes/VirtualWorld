@@ -14,17 +14,32 @@
 	</head>
 	<body>
 		<canvas id="myCanvas"></canvas>
-		<script src="graphui/GraphEditor.js"></script>
-		<script src="graphui/Point.js"></script>
-		<script src="graphui/Segment.js"></script>
-		<script src="graphui/Graph.js"></script>
+		<script src="city/GraphEditor.js"></script>
+		<script src="city/graphunits/GraphPoint.js"></script>
+		<script src="city/graphunits/Point.js"></script>
+		<script src="city/graphunits/GraphSegment.js"></script>
+		<script src="city/graphunits/Segment.js"></script>
+		<script src="city/Mouse.js"></script>
+		<script src="city/Graph.js"></script>
+		<script src="util/math/index.js"></script>
 		<script>
 			const margin = 50;
 			myCanvas.width = window.innerWidth - margin;
 			myCanvas.height = window.innerHeight - margin;
 			myCanvas.style.backgroundColor = '#059862';
+			const ctx = myCanvas.getContext('2d');
+			const graphPoint = new GraphPoint(ctx);
+			const graphSegment = new GraphSegment(ctx);
+			const mouse = new Mouse();
+			const graph = new Graph(ctx, graphPoint, graphSegment);
+			const graphEditor = new GraphEditor(myCanvas, graph, mouse);
 
-			const graphEditor = new GraphEditor(myCanvas);
+			animation();
+
+			function animation() {
+				graphEditor.draw();
+				requestAnimationFrame(animation);
+			}
 		</script>
 	</body>
 </html>

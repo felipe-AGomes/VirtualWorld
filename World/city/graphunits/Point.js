@@ -5,7 +5,7 @@ class Point {
 		this.ray = ray;
 	}
 
-	setNewPosition(x, y) {
+	updatePoint(x, y) {
 		this.x = x;
 		this.y = y;
 	}

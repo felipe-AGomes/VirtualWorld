@@ -100,9 +100,9 @@ class Graph {
 			return;
 		}
 
-		this.graphPoint.load(city.graphPoint.points);
+		this.graphPoint.load(city.graphPoint);
 		const points = this.graphPoint.points;
-		const segments = city.graphSegment.segments.map((segment) => {
+		city.graphSegment.segments = city.graphSegment.segments.map((segment) => {
 			segment.points = segment.points.map((point) => {
 				return points.find((p) => p.x === point.x && p.y === point.y);
 			});
@@ -110,6 +110,6 @@ class Graph {
 			return segment;
 		});
 
-		this.graphSegment.load(segments);
+		this.graphSegment.load(city.graphSegment);
 	}
 }

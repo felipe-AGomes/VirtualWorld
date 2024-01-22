@@ -88,7 +88,11 @@ class GraphPoint {
 		this.points = [];
 	}
 
-	load(points) {
-		this.points = points.map((point) => new Point(point.x, point.y));
+	load(graphPoint) {
+		this.points = graphPoint.points.map((point) => new Point(point.x, point.y));
+		this.selected = this.points.find(
+			(point) =>
+				point.x === graphPoint.selected.x && point.y === graphPoint.selected.y,
+		);
 	}
 }

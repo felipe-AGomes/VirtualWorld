@@ -62,8 +62,8 @@ class GraphSegment {
 		this.segments = [];
 	}
 
-	load(segments) {
-		this.segments = segments.map((segment) => {
+	load(graphSegment) {
+		this.segments = graphSegment.segments.map((segment) => {
 			return new Segment(segment.points[0], segment.points[1]);
 		});
 	}

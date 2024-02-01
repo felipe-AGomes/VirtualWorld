@@ -42,24 +42,32 @@ class Graph {
 			const isOpenPoint = this.graphPoint.isOpenPoint(mouse.mousePoint);
 
 			if (isOpenPoint) {
-				this.graphSegment.updateCurrentSegment(this.graphPoint.hovered);
+				this.updateCurrentSegment(this.graphPoint.hovered);
 			}
 
 			if (!isOpenPoint) {
-				this.graphSegment.updateAllSegmentsOfPoint(
+				this.updateSegmentsOfPoint(
 					this.graphPoint.selected,
 					this.graphPoint.hovered,
 				);
-				this.graphPoint.deletePoint(this.graphPoint.selected);
+				this.deletePoint(this.graphPoint.selected);
 			}
 
 			this.graphPoint.setSelected(this.graphPoint.hovered);
 		} else if (mouse.mousePoint && this.isNotSelectedPoint(mouse.mousePoint)) {
-			this.graphPoint.addPoint(mouse.mousePoint);
+			this.addPoint(mouse.mousePoint);
 		}
 
 		this.graphSegment.setDotted(null);
 		mouse.setMousePoint(null);
+	}
+
+	updateCurrentSegment(point) {
+		this.graphSegment.updateCurrentSegment(point);
+	}
+
+	updateSegmentsForPoint(oldPoint, newPoint) {
+		this.graphSegment.updateAllSegmentsOfPoint(oldPoint, newPoint);
 	}
 
 	isNotSelectedPoint(point) {
@@ -68,6 +76,10 @@ class Graph {
 		}
 
 		return false;
+	}
+
+	addPoint(point) {
+		this.graphPoint.addPoint(point);
 	}
 
 	onMousedownEvent(event, mouse) {

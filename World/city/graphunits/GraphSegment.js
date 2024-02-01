@@ -13,7 +13,7 @@ class GraphSegment {
 	addSegment(segment) {
 		this.segments.push(segment);
 		this.dotted = segment;
-		console.log(this.segments);
+		console.log('SEGMENTS => ', this.segments);
 	}
 
 	updateCurrentSegment(point) {

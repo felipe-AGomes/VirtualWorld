@@ -13,7 +13,7 @@ class GraphPoint {
 		this.setSelected(point);
 		this.setHovered(point);
 
-		console.log(this.points);
+		console.log('POINTS => ', this.points);
 	}
 
 	setSelected(point) {
@@ -30,9 +30,9 @@ class GraphPoint {
 
 	draw() {
 		for (const point of this.points) {
-			if (point == this.selected) {
+			if (point == this.selected && this.selected) {
 				this.drawSelectedPoint();
-			} else if (point == this.hovered) {
+			} else if (point == this.hovered && this.hovered) {
 				this.drawHoveredPoint();
 			} else {
 				this.drawPoint(point);
@@ -64,8 +64,10 @@ class GraphPoint {
 
 	tryGetPointClose(x, y) {
 		for (const point of this.points) {
-			if (isNearToPoint(x, y, point.x, point.y, 12)) {
-				return point;
+			if (point !== this.selected) {
+				if (isNearToPoint(x, y, point.x, point.y, 12)) {
+					return point;
+				}
 			}
 		}
 	}
@@ -78,12 +80,6 @@ class GraphPoint {
 		this.points = this.points.filter((p) => p !== point);
 	}
 
-	deleteHoveredPoint() {
-		if (this.hovered) {
-			this.points = this.points.filter((p) => p !== this.hovered);
-		}
-	}
-
 	clear() {
 		this.points = [];
 	}
@@ -94,5 +90,17 @@ class GraphPoint {
 			(point) =>
 				point.x === graphPoint.selected.x && point.y === graphPoint.selected.y,
 		);
+	}
+
+	tryGetSelectedPointClose(x, y) {
+		if (!this.selected) {
+			return;
+		}
+
+		if (isNearToPoint(x, y, this.selected.x, this.selected.y, 12)) {
+			return true;
+		}
+
+		return false;
 	}
 }

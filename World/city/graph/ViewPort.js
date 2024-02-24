@@ -16,6 +16,5 @@ class ViewPort {
 		const deltaY = Math.sign(event.deltaY);
 		const newZoom = this.zoom + deltaY * step;
 		this.zoom = Math.max(1, Math.min(5, newZoom));
-		console.log(1 / 2);
 	};
 }

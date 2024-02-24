@@ -1,11 +1,25 @@
 class GraphEditor {
-	constructor(canvas, graph, mouse) {
+	constructor(canvas, graph, mouse, graphState) {
 		this.canvas = canvas;
 		this.graph = graph;
 		this.mouse = mouse;
 		this.viewPort = viewPort;
+		this.graphState = graphState;
 
+		this.load();
 		this.addEventListeners();
+	}
+
+	load() {
+		this.graphState.load(this.graph);
+	}
+
+	clear() {
+		this.graphState.clear(this.graph);
+	}
+
+	save() {
+		this.graphState.save(this.graph);
 	}
 
 	draw() {

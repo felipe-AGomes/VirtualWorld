@@ -4,28 +4,6 @@ class Graph {
 		this.graphPoint = graphPoint;
 		this.graphSegment = graphSegment;
 		this.viewPort = viewPort;
-
-		this.load();
-	}
-
-	load() {
-		const city = JSON.parse(Storage.load('city'));
-
-		if (!city) {
-			return;
-		}
-
-		this.graphPoint.load(city.graphPoint);
-		const points = this.graphPoint.points;
-		city.graphSegment.segments = city.graphSegment.segments.map((segment) => {
-			segment.points = segment.points.map((point) => {
-				return points.find((p) => p.x === point.x && p.y === point.y);
-			});
-
-			return segment;
-		});
-
-		this.graphSegment.load(city.graphSegment);
 	}
 
 	onMousemoveEvent(event, mouse) {
@@ -155,9 +133,10 @@ class Graph {
 		this.graphSegment.addSegment(new Segment(this.graphPoint.selected, point));
 	}
 
-	// middleButtonEvent(event) {
-	// 	console.lo
-	// }
+	middleButtonEvent(event) {
+		console.log(event.offsetX);
+		console.log(event.offsetY);
+	}
 
 	draw() {
 		this.clearRect();
@@ -165,20 +144,32 @@ class Graph {
 		this.graphPoint.draw();
 	}
 
+	load(strPoints, strSegments) {
+		this.graphPoint.load(strPoints);
+		const points = this.graphPoint.points;
+		strSegments.segments = strSegments.segments.map((segment) => {
+			segment.points = segment.points.map((point) => {
+				return points.find((p) => p.x === point.x && p.y === point.y);
+			});
+
+			return segment;
+		});
+
+		this.graphSegment.load(strSegments);
+	}
+
+	clearPoints() {
+		this.graphPoint.clear();
+	}
+
+	clearSegments() {
+		this.graphSegment.clear();
+	}
+
 	clearRect() {
 		const width = this.viewPort.getPozitionWithZoom(this.ctx.canvas.width);
 		const height = this.viewPort.getPozitionWithZoom(this.ctx.canvas.height);
 
 		this.ctx.clearRect(0, 0, width, height);
-	}
-
-	clear() {
-		this.graphPoint.clear();
-		this.graphSegment.clear();
-		Storage.remove('city');
-	}
-
-	save() {
-		Storage.save(JSON.stringify(this), 'city');
 	}
 }

@@ -15,8 +15,8 @@
 	<body>
 		<canvas id="myCanvas"></canvas>
 		<div class="buttonContain">
-			<button onclick="graph.clear()">🗑️</button>
-			<button onclick="graph.save()">💾</button>
+			<button onclick="graphEditor.clear()">🗑️</button>
+			<button onclick="graphEditor.save()">💾</button>
 		</div>
 		<script src="city/graph/GraphEditor.js"></script>
 		<script src="city/graph/graphunits/GraphPoint.js"></script>
@@ -26,6 +26,7 @@
 		<script src="city/graph/Mouse.js"></script>
 		<script src="city/graph/Graph.js"></script>
 		<script src="city/graph/ViewPort.js"></script>
+		<script src="city/graph/GraphState.js"></script>
 		<script src="util/math/index.js"></script>
 		<script src="util/session/Storage.js"></script>
 		<script>
@@ -40,10 +41,10 @@
 			const viewPort = new ViewPort();
 			const mouse = new Mouse();
 			const graph = new Graph(ctx, viewPort, graphPoint, graphSegment);
-			const graphEditor = new GraphEditor(myCanvas, graph, mouse);
+			const graphState = new GraphState();
+			const graphEditor = new GraphEditor(myCanvas, graph, mouse, graphState);
 
 			animation();
-			console.log(myCanvas.offsetTop);
 			myCanvas.offsetTop = 1000;
 			function animation() {
 				ctx.save();

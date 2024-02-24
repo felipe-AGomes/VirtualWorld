@@ -18,16 +18,16 @@
 			<button onclick="graph.clear()">🗑️</button>
 			<button onclick="graph.save()">💾</button>
 		</div>
-		<script src="city/GraphEditor.js"></script>
-		<script src="city/graphunits/GraphPoint.js"></script>
-		<script src="city/graphunits/Point.js"></script>
-		<script src="city/graphunits/GraphSegment.js"></script>
-		<script src="city/graphunits/Segment.js"></script>
-		<script src="city/Mouse.js"></script>
-		<script src="city/Graph.js"></script>
+		<script src="city/graph/GraphEditor.js"></script>
+		<script src="city/graph/graphunits/GraphPoint.js"></script>
+		<script src="city/graph/graphunits/Point.js"></script>
+		<script src="city/graph/graphunits/GraphSegment.js"></script>
+		<script src="city/graph/graphunits/Segment.js"></script>
+		<script src="city/graph/Mouse.js"></script>
+		<script src="city/graph/Graph.js"></script>
+		<script src="city/graph/ViewPort.js"></script>
 		<script src="util/math/index.js"></script>
 		<script src="util/session/Storage.js"></script>
-		<script src="city/ViewPort.js"></script>
 		<script>
 			const margin = 50;
 			myCanvas.width = window.innerWidth - margin;
@@ -39,13 +39,17 @@
 			const graphSegment = new GraphSegment(ctx);
 			const viewPort = new ViewPort();
 			const mouse = new Mouse();
-			const graph = new Graph(ctx, graphPoint, graphSegment);
-			const graphEditor = new GraphEditor(myCanvas, graph, viewPort, mouse);
+			const graph = new Graph(ctx, viewPort, graphPoint, graphSegment);
+			const graphEditor = new GraphEditor(myCanvas, graph, mouse);
 
 			animation();
-
+			console.log(myCanvas.offsetTop);
+			myCanvas.offsetTop = 1000;
 			function animation() {
+				ctx.save();
+				ctx.scale(1 / viewPort.zoom, 1 / viewPort.zoom);
 				graphEditor.draw();
+				ctx.restore();
 				requestAnimationFrame(animation);
 			}
 		</script>

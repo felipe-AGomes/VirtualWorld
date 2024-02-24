@@ -1,8 +1,9 @@
 class Graph {
-	constructor(ctx, graphPoint, graphSegment) {
+	constructor(ctx, viewPort, graphPoint, graphSegment) {
 		this.ctx = ctx;
 		this.graphPoint = graphPoint;
 		this.graphSegment = graphSegment;
+		this.viewPort = viewPort;
 
 		this.load();
 	}
@@ -28,12 +29,15 @@ class Graph {
 	}
 
 	onMousemoveEvent(event, mouse) {
+		const x = this.viewPort.getPozitionWithZoom(event.offsetX);
+		const y = this.viewPort.getPozitionWithZoom(event.offsetY);
+
 		this.graphPoint.setHovered(
-			this.graphPoint.tryGetPointClose(event.offsetX, event.offsetY),
+			this.graphPoint.tryGetPointClose(x, y, this.viewPort.getZoom()),
 		);
 
 		if (mouse.mousePoint) {
-			mouse.updatePoint(event.offsetX, event.offsetY);
+			mouse.updatePoint(x, y);
 		}
 	}
 
@@ -46,7 +50,7 @@ class Graph {
 			}
 
 			if (!isOpenPoint) {
-				this.updateSegmentsOfPoint(
+				this.updateSegmentsForPoint(
 					this.graphPoint.selected,
 					this.graphPoint.hovered,
 				);
@@ -85,8 +89,10 @@ class Graph {
 	onMousedownEvent(event, mouse) {
 		if (event.button === 2) {
 			this.rightButtonEvent();
-		} else {
+		} else if (event.button === 0) {
 			this.leftButtonEvent(event, mouse);
+		} else if (event.button === 1) {
+			this.middleButtonEvent();
 		}
 	}
 
@@ -106,8 +112,8 @@ class Graph {
 	}
 
 	leftButtonEvent(event, mouse) {
-		const x = event.offsetX;
-		const y = event.offsetY;
+		const x = this.viewPort.getPozitionWithZoom(event.offsetX);
+		const y = this.viewPort.getPozitionWithZoom(event.offsetY);
 
 		if (this.graphPoint.hovered || this.isOnSelectedPoint({ x, y })) {
 			const pointToSet = this.graphPoint.hovered
@@ -118,7 +124,7 @@ class Graph {
 			this.setMousePoint(mouse, pointToSet);
 			this.graphPoint.setHovered(null);
 		} else if (this.graphPoint.points.length === 0) {
-			this.setFirstPoint({ x, y });
+			this.addPoint(new Point(x, y));
 		} else {
 			this.addMousePoint(mouse, { x, y });
 			this.addSegment(mouse.mousePoint);
@@ -141,10 +147,6 @@ class Graph {
 		mouse.setMousePoint(point);
 	}
 
-	setFirstPoint({ x, y }) {
-		this.graphPoint.addPoint(new Point(x, y));
-	}
-
 	addMousePoint(mouse, { x, y }) {
 		mouse.setMousePoint(new Point(x, y));
 	}
@@ -153,6 +155,10 @@ class Graph {
 		this.graphSegment.addSegment(new Segment(this.graphPoint.selected, point));
 	}
 
+	// middleButtonEvent(event) {
+	// 	console.lo
+	// }
+
 	draw() {
 		this.clearRect();
 		this.graphSegment.draw();
@@ -160,7 +166,10 @@ class Graph {
 	}
 
 	clearRect() {
-		this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+		const width = this.viewPort.getPozitionWithZoom(this.ctx.canvas.width);
+		const height = this.viewPort.getPozitionWithZoom(this.ctx.canvas.height);
+
+		this.ctx.clearRect(0, 0, width, height);
 	}
 
 	clear() {

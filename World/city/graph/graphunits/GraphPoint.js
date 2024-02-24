@@ -62,10 +62,13 @@ class GraphPoint {
 		this.ctx.fill();
 	}
 
-	tryGetPointClose(x, y) {
+	tryGetPointClose(x, y, zoom) {
+		let distance = 12;
+		distance *= zoom;
+
 		for (const point of this.points) {
 			if (point !== this.selected) {
-				if (isNearToPoint(x, y, point.x, point.y, 12)) {
+				if (isNearToPoint(x, y, point.x, point.y, distance)) {
 					return point;
 				}
 			}

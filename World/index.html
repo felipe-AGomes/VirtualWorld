@@ -45,11 +45,11 @@
 			const graphEditor = new GraphEditor(myCanvas, graph, mouse, graphState);
 
 			animation();
-			myCanvas.offsetTop = 1000;
 			function animation() {
 				ctx.save();
 				ctx.scale(1 / viewPort.zoom, 1 / viewPort.zoom);
 				graphEditor.draw();
+				ctx.translate(viewPort.getEnd().x, viewPort.getEnd().y);
 				ctx.restore();
 				requestAnimationFrame(animation);
 			}

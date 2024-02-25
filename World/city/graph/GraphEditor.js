@@ -27,15 +27,18 @@ class GraphEditor {
 	}
 
 	onMousedownEvent(event) {
-		this.graph.onMousedownEvent(event, this.mouse);
+		// this.graph.onMousedownEvent(event, this.mouse);
+		this.viewPort.onMousedownEvent(event);
 	}
 
 	onMousemoveEvent(event) {
-		this.graph.onMousemoveEvent(event, this.mouse);
+		// this.graph.onMousemoveEvent(event, this.mouse);
+		this.viewPort.onMousemoveEvent(event);
 	}
 
-	onMouseupEvent() {
-		this.graph.onMouseupEvent(this.mouse);
+	onMouseupEvent(event) {
+		// this.graph.onMouseupEvent(this.mouse);
+		this.viewPort.onMouseupEvent(event);
 	}
 
 	addEventListeners() {

@@ -69,8 +69,6 @@ class Graph {
 			this.rightButtonEvent();
 		} else if (event.button === 0) {
 			this.leftButtonEvent(event, mouse);
-		} else if (event.button === 1) {
-			this.middleButtonEvent();
 		}
 	}
 
@@ -131,11 +129,6 @@ class Graph {
 
 	addSegment(point) {
 		this.graphSegment.addSegment(new Segment(this.graphPoint.selected, point));
-	}
-
-	middleButtonEvent(event) {
-		console.log(event.offsetX);
-		console.log(event.offsetY);
 	}
 
 	draw() {
